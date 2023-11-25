@@ -2,7 +2,7 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import AudioPlayer from "react-h5-audio-player";
-import useHasMounted from "@/utils/customHook";
+import { useHasMounted } from "@/utils/customHook";
 import "react-h5-audio-player/lib/styles.css";
 import Container from "@mui/material/Container";
 const AppFooter = () => {
