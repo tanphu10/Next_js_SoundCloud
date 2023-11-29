@@ -15,7 +15,7 @@ interface IProps {
   title: string;
 }
 const MainSlider = (props: IProps) => {
-  console.log(">>check data", props.data);
+  // console.log(">>check data", props.data);
   const { data, title } = props;
   const NextArrow = (props: any) => {
     return (
@@ -85,8 +85,9 @@ const MainSlider = (props: IProps) => {
       <h2> {title}</h2>
       <Slider {...settings}>
         {data.map((track) => {
+          // console.log("track main slide", track);
           return (
-            <div className="track">
+            <div className="track" key={track._id}>
               <img
                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}images/${track.imgUrl}`}
                 alt=""

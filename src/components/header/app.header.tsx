@@ -20,6 +20,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 // style-component
 const Search = styled("div")(({ theme }) => ({
@@ -63,6 +64,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader() {
+  const { data: session } = useSession();
+  console.log("check session >>>", session)
+  // console.log("usehook",useSession())
   const router = useRouter();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -119,10 +123,16 @@ export default function AppHeader() {
           Profile
         </Link>
       </MenuItem>
-      <MenuItem>Log out</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          signOut();
+        }}
+      >
+        LogOut
+      </MenuItem>
     </Menu>
   );
-
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -221,10 +231,26 @@ export default function AppHeader() {
                 },
               }}
             >
-              <Link href={"/playlist"}>Playlists</Link>
-              <Link href={"/like"}>Likes</Link>
-              <span>upload</span>
-              <Avatar onClick={handleProfileMenuOpen}>TP</Avatar>
+              {session ? (
+                <>
+                  <Link href={"/playlist"}>Playlists</Link>
+                  <Link href={"/like"}>Likes</Link>
+                  <span>upload</span>
+                  <Avatar onClick={handleProfileMenuOpen}>TP</Avatar>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Link
+                    href={""}
+                    onClick={() => {
+                      signIn();
+                    }}
+                  >
+                    Login
+                  </Link>
+                </>
+              )}
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
