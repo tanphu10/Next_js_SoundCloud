@@ -12,19 +12,19 @@ export const authOptions: AuthOptions = {
     // ...add more providers here
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Credentials",
+      name: "credentials",
       // `credentials` is used to generate a form on the sign in page.
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
+        username: { label: "tên đăng nhập", type: "text" },
+        password: { label: "mật khẩu", type: "password" },
       },
       async authorize(credentials, req) {
-        console.log("credentials là gì", credentials);
+        // console.log("credentials là gì", credentials);
         const res = await sendRequest<IBackendRes<JWT>>({
-          url: "http://localhost:8000/api/v1/auth/social-media",
+          url: "http://localhost:8000/api/v1/auth/login",
           method: "POST",
           body: {
             username: credentials?.username,
@@ -32,14 +32,14 @@ export const authOptions: AuthOptions = {
           },
         });
         // Add logic here to look up the user from the credentials supplied
-
         if (res && res.data) {
           // Any object returned will be saved in `user` property of the JWT
           return res.data as any;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
-          return null;
-
+          // return null;
+          // console.log("res server", res.message);
+          throw new Error(res?.message as string);
           // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
@@ -51,10 +51,10 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account, profile, trigger }) {
-      console.log("check token server", token);
-      console.log("check  user", user);
-      console.log("check  account", account);
-      console.log("trigger", trigger);
+      // console.log("check token server", token);
+      // console.log("check  user", user);
+      // console.log("check  account", account);
+      // console.log("trigger", trigger);
       if (trigger === "signIn" && account?.provider !== "credentials") {
         const res = await sendRequest<IBackendRes<JWT>>({
           url: "http://localhost:8000/api/v1/auth/social-media",
@@ -87,8 +87,6 @@ export const authOptions: AuthOptions = {
         session.refresh_token = token.refresh_token;
         session.user = token.user;
       }
-      // @ts-ignore
-      // session.user.address = token.address;
       return session;
     },
   },

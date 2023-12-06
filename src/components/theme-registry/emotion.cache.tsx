@@ -20,6 +20,7 @@ export type NextAppDirEmotionCacheProviderProps = {
 export default function NextAppDirEmotionCacheProvider(props: NextAppDirEmotionCacheProviderProps) {
   const { options, CacheProvider = DefaultCacheProvider, children } = props;
 
+  
   const [registry] = React.useState(() => {
     const cache = createCache(options);
     cache.compat = true;

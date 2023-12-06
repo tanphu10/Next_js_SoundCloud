@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function AppHeader() {
   const { data: session } = useSession();
-  console.log("check session >>>", session)
+  // console.log("check session >>>", session);
   // console.log("usehook",useSession())
   const router = useRouter();
 
@@ -97,16 +97,8 @@ export default function AppHeader() {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      //   anchorOrigin={{
-      //     vertical: "top",
-      //     horizontal: "right",
-      //   }}
       id={menuId}
       keepMounted
-      //   transformOrigin={{
-      //     vertical: "top",
-      //     horizontal: "right",
-      //   }}
       open={isMenuOpen}
       onClose={handleMenuClose}
       transformOrigin={{ horizontal: "right", vertical: "top" }}
@@ -235,17 +227,17 @@ export default function AppHeader() {
                 <>
                   <Link href={"/playlist"}>Playlists</Link>
                   <Link href={"/like"}>Likes</Link>
-                  <span>upload</span>
+                  <Link href={'/track/upload'}>upload</Link>
                   <Avatar onClick={handleProfileMenuOpen}>TP</Avatar>
                 </>
               ) : (
                 <>
                   {" "}
                   <Link
-                    href={""}
-                    onClick={() => {
-                      signIn();
-                    }}
+                    href={"/auth/signin"}
+                    // onClick={() => {
+                    //   signIn();
+                    // }}
                   >
                     Login
                   </Link>

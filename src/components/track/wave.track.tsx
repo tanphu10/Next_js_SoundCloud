@@ -10,10 +10,11 @@ import PauseIcon from "@mui/icons-material/Pause";
 import { Tooltip } from "@mui/material";
 const WaveTrack = () => {
   const searchParams = useSearchParams();
+  // console.log("searchParam >>>> check ,", useSearchParams());
   const fileName = searchParams.get("audio");
+  console.log("fileName", fileName);
   const containerRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef<HTMLDivElement>(null);
-
   const [time, setTime] = useState<string>("0:00");
   const [duration, setDuration] = useState<string>("0:00");
 
