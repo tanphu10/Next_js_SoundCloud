@@ -5,22 +5,50 @@ import AudioPlayer from "react-h5-audio-player";
 import { useHasMounted } from "@/utils/customHook";
 import "react-h5-audio-player/lib/styles.css";
 import Container from "@mui/material/Container";
+import { TrackContext, useTrackContext } from "@/lib/track.wrapper";
 const AppFooter = () => {
+  const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
+  // console.log("check =>>> currentTrack ", currentTrack);
   const hasMounted = useHasMounted();
   //   console.log("hasMounted", hasMounted);
+  const playerRef = React.useRef(null);
+  // console.log("playref", playerRef?.current);
   if (!hasMounted) return <></>;
+
+  // @ts-ignore
+  if (currentTrack?.isPlaying) {
+    // @ts-ignore
+    playerRef?.current?.audio.current.play();
+  } else {
+    // @ts-ignore
+    playerRef?.current?.audio.current.pause();
+  }
   return (
-    <React.Fragment>
+    <>
+    {
+      currentTrack._id &&
+      <div style={{ marginTop: 60 }}>
       <AppBar
         position="fixed"
         sx={{ top: "auto", bottom: 0, backgroundColor: "#f2f2f2fe" }}
       >
-        <Container sx={{ display: "flex", gap: 10 }}>
+        <Container
+          sx={{ display: "flex", gap: 10, ".rhap_main": { gap: "30px" } }}
+        >
           <AudioPlayer
-            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}+/tracks/hoidanit.mp3`}
+            ref={playerRef}
+            layout="horizontal"
+            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}tracks/${currentTrack?.trackUrl}`}
             volume={0.5}
             // Try other props!
             style={{ boxShadow: "unset", backgroundColor: "#f2f2f2fe" }}
+            onPlay={() => {
+              // console.log("check on play");
+              setCurrentTrack({ ...currentTrack, isPlaying: true });
+            }}
+            onPause={() => {
+              setCurrentTrack({ ...currentTrack, isPlaying: false });
+            }}
           />
           <div
             style={{
@@ -31,12 +59,14 @@ const AppFooter = () => {
               minWidth: 100,
             }}
           >
-            <div style={{ color: "#ccc" }}>Tấn Phú</div>
-            <div style={{ color: "black" }}>Who i am</div>
+            <div style={{ color: "#ccc" }}>{currentTrack.description}</div>
+            <div style={{ color: "black" }}>{currentTrack.title}</div>
           </div>
         </Container>
       </AppBar>
-    </React.Fragment>
+    </div>
+    }
+    </>
   );
 };
 

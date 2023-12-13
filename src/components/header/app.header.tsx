@@ -21,6 +21,7 @@ import Avatar from "@mui/material/Avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { fetchDefaultImages } from "@/utils/api";
 
 // style-component
 const Search = styled("div")(({ theme }) => ({
@@ -106,7 +107,7 @@ export default function AppHeader() {
     >
       <MenuItem>
         <Link
-          href={"/profile"}
+          href={`/profile/${session?.user._id}`}
           style={{
             color: "unset",
             textDecoration: "unset",
@@ -173,7 +174,15 @@ export default function AppHeader() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <Link
+          href={`/profile/${session?.user._id}`}
+          style={{
+            color: "unset",
+            textDecoration: "unset",
+          }}
+        >
+          Profile
+        </Link>
       </MenuItem>
     </Menu>
   );
@@ -227,8 +236,17 @@ export default function AppHeader() {
                 <>
                   <Link href={"/playlist"}>Playlists</Link>
                   <Link href={"/like"}>Likes</Link>
-                  <Link href={'/track/upload'}>upload</Link>
-                  <Avatar onClick={handleProfileMenuOpen}>TP</Avatar>
+                  <Link href={"/track/upload"}>upload</Link>
+                  <img
+                    onClick={handleProfileMenuOpen}
+                    style={{
+                      height: 35,
+                      width: 35,
+                      cursor: "pointer",
+                    }}
+                    src={fetchDefaultImages(session.user.type)}
+                    alt=""
+                  />
                 </>
               ) : (
                 <>

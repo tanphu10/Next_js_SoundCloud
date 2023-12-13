@@ -18,10 +18,10 @@ declare global {
       role: string;
       type: string;
     };
-    isDeleted: false;
-    __v: 0;
-    createdAt: "2023-11-21T06:40:51.741Z";
-    updatedAt: "2023-11-21T06:40:51.741Z";
+    isDeleted: boolean;
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
   }
   interface IRequest {
     url: string;
@@ -48,5 +48,46 @@ declare global {
       total: number;
     };
     result: T[];
+  }
+  interface IShareTrack extends ITrackTop {
+    isPlaying: boolean;
+  }
+  interface ITrackContext {
+    currentTrack: IShareTrack;
+    setCurrentTrack: (v: IShareTrack) => void;
+  }
+  interface ITrackComment {
+    _id: string;
+    content: string;
+    moment: number;
+    user: {
+      _id: string;
+      email: string;
+      name: string;
+      role: string;
+      type: string;
+    };
+    track: {
+      _id: string;
+      title: string;
+      description: string;
+      trackUrl: string;
+    };
+    isDeleted: boolean;
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+  }
+  interface ITrackLike {
+    _id: string;
+    title: string;
+    description: string;
+    category: string;
+    imgUrl: string;
+    trackUrl: string;
+    countLike: number;
+    countPlay: number;
+    createdAt: string;
+    updatedAt: string;
   }
 }
