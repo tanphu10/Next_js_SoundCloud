@@ -32,14 +32,12 @@ declare global {
     headers?: any;
     nextOption?: any;
   }
-
   interface IBackendRes<T> {
     error?: string | string[];
     message: string;
     statusCode: number | string;
     data?: T;
   }
-
   interface IModelPaginate<T> {
     meta: {
       current: number;
@@ -89,5 +87,33 @@ declare global {
     countPlay: number;
     createdAt: string;
     updatedAt: string;
+  }
+  interface IPlaylist {
+    _id: string;
+    title: string;
+    isPublic: boolean;
+    user: {
+      _id: string;
+      username: string;
+      email: string;
+      role: string;
+      type: string;
+    };
+    tracks: [
+      {
+        _id: string;
+        title: string;
+        description: string;
+        category: string;
+        imgUrl: string;
+        trackUrl: string;
+        countLike: number;
+        countPlay: number;
+      }
+    ];
+    isDeleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
   }
 }

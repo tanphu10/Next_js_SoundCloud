@@ -13,16 +13,14 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { useTrackContext } from "@/lib/track.wrapper";
 import PauseIcon from "@mui/icons-material/Pause";
 import Link from "next/link";
+import { convertSlugUrl } from "@/utils/api";
 
-interface Iprops {
-  data: ITrackTop;
-}
-export const ProfileId = (props: Iprops) => {
+export const ProfileId = (props: any) => {
   const theme = useTheme();
   const { data } = props;
-  // console.log("data", data);
+  console.log("data", data);
   const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
-  // console.log("currentTrack", currentTrack);
+  console.log("currentTrack", currentTrack);
   return (
     <Card
       sx={{ display: "flex", justifyContent: "space-between", marginX: "20px" }}
@@ -34,7 +32,9 @@ export const ProfileId = (props: Iprops) => {
               textDecoration: "none",
               color: "unset",
             }}
-            href={`/track/${data._id}?audio=${data.trackUrl}&id=${data._id}`}
+            href={`/track/${convertSlugUrl(data.title)}-${
+              data._id
+            }.html?audio=${data.trackUrl}`}
           >
             <Typography component="div" variant="h5">
               {data.title}

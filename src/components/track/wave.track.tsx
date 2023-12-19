@@ -157,12 +157,20 @@ const WaveTrack = (props: IProps) => {
   const handleIncreaseView = async () => {
     if (viewRef.current) {
       await sendRequest<IBackendRes<IModelPaginate<ITrackLike>>>({
-        url: `http://localhost:8000/api/v1/tracks/increase-view`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}api/v1/tracks/increase-view`,
         method: "POST",
         body: {
           trackId: track?._id,
         },
       });
+      await sendRequest<IBackendRes<any>>({
+        url: `/api/revalidate`,
+        method: "POST",
+        queryParams: {
+          tag: "track-by-id",
+        },
+      });
+      router.refresh()
     }
 
     // console.log(res2);
@@ -276,7 +284,7 @@ const WaveTrack = (props: IProps) => {
                         zIndex: 20,
                         left: calLeft(item.moment),
                       }}
-                      src={`http://localhost:8000/images/chill1.png`}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/chill1.png`}
                     />
                   </Tooltip>
                 );

@@ -34,7 +34,7 @@ const InputFileUpload = (props: any) => {
     formData.append("fileUpload", image);
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/files/upload",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}api/v1/files/upload`,
         formData,
         {
           headers: {
@@ -124,9 +124,9 @@ const Step2 = (props: Iprops) => {
     { value: "PARTY", lable: "PARTY" },
   ];
   const handleSubmitForm = async () => {
-    console.log("check info =>>>>", info);
+    // console.log("check info =>>>>", info);
     const res = await sendRequest<IBackendRes<ITrackTop[]>>({
-      url: "http://localhost:8000/api/v1/tracks",
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}api/v1/tracks`,
       method: "POST",
       headers: {
         Authorization: `Bearer ${session?.access_token}`,
@@ -144,6 +144,14 @@ const Step2 = (props: Iprops) => {
       // alert("create success");
       toast.success("create success");
       setValue(0);
+      await sendRequest<IBackendRes<any>>({
+        url: `/api/revalidate`,
+        method: "POST",
+        queryParams: {
+          tag: "track-by-profile",
+        },
+      });
+      // router.refresh();
     } else {
       // alert(res.message);
       toast.error(res.message);

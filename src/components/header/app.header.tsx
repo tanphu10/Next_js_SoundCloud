@@ -217,6 +217,12 @@ export default function AppHeader() {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                onKeyDown={(e: any) => {
+                  if (e.key === "Enter") {
+                    if (e?.target?.value)
+                      router.push(`/search?q=${e?.target?.value}`);
+                  }
+                }}
               />
             </Search>
             <Box sx={{ flexGrow: 1 }} />
@@ -234,8 +240,8 @@ export default function AppHeader() {
             >
               {session ? (
                 <>
-                  <Link href={"/playlist"}>Playlists</Link>
-                  <Link href={"/like"}>Likes</Link>
+                  <Link href={`/playlist/${session?.user._id}`}>Playlists</Link>
+                  <Link href={`/like/${session?.user._id}`}>Likes</Link>
                   <Link href={"/track/upload"}>upload</Link>
                   <img
                     onClick={handleProfileMenuOpen}
